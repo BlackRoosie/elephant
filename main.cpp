@@ -26,6 +26,13 @@ int main(){
     // cout<<bitset<8>(trial)<<endl;
 
     // cout<<bitset<8>(lCounter(0x75));
+    // cout<<bitset<8>(getBit(0x40, 1))<<endl;
+
+    unsigned char state[NBYTES] = {0};
+    state[0] = 0xff;
+    pLayer(state);
+    for(int i =0; i < NBYTES; i++)
+        cout<<"i: "<<bitset<8>(state[i])<<endl;
 
 
 

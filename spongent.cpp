@@ -34,18 +34,30 @@ unsigned char lCounter(unsigned char byte){
     return lfsr;
 }
 
+unsigned char getBit(unsigned char X, int i){
+	return ((X >> (7-i)) & 0x1);
+}
 
-
-void pLayer(unsigned char* X){
-    unsigned char output[NBYTES] = {0};
+void pLayer(unsigned char* state){
+    unsigned char new_state[NBYTES] = {0};
+	unsigned char x, current_position, new_position, help;	//x is value of j-th bit
 
     for(int i = 0; i < NBYTES; i++){
         for(int j = 0; j < 8; j++){
-            if(i != (NBYTES - 1) && j != 7){
-                
+			current_position = (i * 8) + j;
+			cout<<int(current_position)<<endl;
+			x = getBit(state[i], j);
+
+			if(current_position == 159)
+				new_state[i] ^= x;
+            else{				
+				new_position = (40 * current_position) % 159;
+				help = new_position/8;
+				new_state[help] ^= (x << (7 - (new_position - help*8)));
             }
         }
     }
 
+	memcpy(state, new_state, NBYTES);
 }
 

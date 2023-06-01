@@ -61,3 +61,19 @@ void pLayer(unsigned char* state){
 	memcpy(state, new_state, NBYTES);
 }
 
+void permutation(unsigned char* state){
+	unsigned char lfsr = 0x75;
+	unsigned char rev_lfsr = reverse(lfsr);
+
+	for(int i = 0; i < 80; i++){
+		state[0] ^= rev_lfsr;
+		state[NBYTES-1] ^= lfsr;
+
+		//sBoxLayer
+		for(int i = 0; i < NBYTES; i++){
+			state[i] = sBox[state[i]];
+		}
+
+		pLayer(state);
+	}
+}

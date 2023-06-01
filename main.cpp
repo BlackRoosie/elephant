@@ -2,6 +2,7 @@
 
 #include "constants.h"
 #include "spongent.cpp"
+#include "encryption.cpp"
 
 #include <bitset>
 
@@ -28,13 +29,25 @@ int main(){
     // cout<<bitset<8>(lCounter(0x75));
     // cout<<bitset<8>(getBit(0x40, 1))<<endl;
 
-    unsigned char state[NBYTES] = {0};
-    state[0] = 0xff;
-    pLayer(state);
-    for(int i =0; i < NBYTES; i++)
-        cout<<"i: "<<bitset<8>(state[i])<<endl;
+    // unsigned char state[NBYTES] = {0};
+    // state[0] = 0xff;
+    // pLayer(state);
+    // for(int i =0; i < NBYTES; i++)
+    //     cout<<"i: "<<bitset<8>(state[i])<<endl;
 
+    // cout<<bitset<8>(rotationLeft3(0x9a));
 
+    // unsigned char state[NBYTES] = {0};
+    // state[0] = 0x9a;
+    // state[1] = 0x01;
+    // state[3] = 0x01;
+    // state[13] = 0x80;
+    // state[19] = 0x20;
+
+    // lfsr_granger(state);
+
+    // for(int i =0; i < NBYTES; i++)
+    //     cout<<i<<" : "<<bitset<8>(state[i])<<endl;
 
 
     return 0;

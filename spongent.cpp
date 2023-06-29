@@ -45,7 +45,6 @@ void pLayer(unsigned char* state){
     for(int i = 0; i < NBYTES; i++){
         for(int j = 0; j < 8; j++){
 			current_position = (i * 8) + j;
-			cout<<int(current_position)<<endl;
 			x = getBit(state[i], j);
 
 			if(current_position == 159)

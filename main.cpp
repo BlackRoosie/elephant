@@ -1,29 +1,58 @@
 #include<iostream>
 
 #include "constants.h"
-#include "spongent.cpp"
+// #include "spongent.cpp"
 #include "encryption.cpp"
 
 #include <bitset>
 
 using namespace std;
 
-void encryption(unsigned char* key, unsigned char*  nonce, unsigned char* ad, unsigned char* message){
+void randomBytes(unsigned char* bytes, int n) {
 
-
+    int temp;
+	for (int i = 0; i < n; i++)
+	{
+		temp = rand();
+		bytes[i] = temp & 255;
+	}
 }
-
 
 int main(){
 
-    // unsigned char key[KEYBYTES];
-    // unsigned char nonce[NONCEBYTES];
+    unsigned char key[KEYBYTES];
+    unsigned char nonce[NONCEBYTES];
+
+    randomBytes(key, KEYBYTES);
+	randomBytes(nonce, NONCEBYTES);
 
     unsigned char ad[5] = {'A', 'S', 'C', 'O', 'N'};
-    // unsigned char plain[5] = {'a', 's', 'c', 'o', 'n'};
+    int adlen = sizeof(ad);	
+    
+    unsigned char plain[5] = {'a', 's', 'c', 'o', 'n'};
+    const int msglen = sizeof(plain);	
+
+    unsigned char cipher[msglen];
+	unsigned char plaintextDecryted[msglen];
+	unsigned char tagEncryption[TAGBYTES];
+	unsigned char tagDecryption[TAGBYTES];
+
+    encrypt(key, nonce, ad, adlen, plain, msglen, cipher, tagEncryption);
+
+    for(int i = 0; i < msglen; i++)
+        cout<<bitset<8>(cipher[i])<<endl;
+
+    decrypt(key, nonce, ad, adlen, cipher, msglen, plaintextDecryted, tagEncryption, tagDecryption);
+
+    cout<<endl;
+    for(int i = 0; i < msglen; i++)
+        cout<<bitset<8>(plaintextDecryted[i])<<endl;
+
+    for(int i = 0; i < msglen; i ++)
+        cout<<plaintextDecryted[i]<<endl;
 
     // cout<<bitset<8>('e')<<endl;
-    unsigned char trial = reverse('e');
+    // unsigned char trial = reverse('e');
     // cout<<bitset<8>(trial)<<endl;
 
     // cout<<bitset<8>(lCounter(0x75));

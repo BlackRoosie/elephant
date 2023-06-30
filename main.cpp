@@ -18,6 +18,27 @@ void randomBytes(unsigned char* bytes, int n) {
 	}
 }
 
+void encrytpion(unsigned char* key, unsigned char* nonce, unsigned char* ad, int adlen, unsigned char* plaintext, int ptlen, unsigned char* ciphertext, unsigned char* tag){
+    crypto_aead(key, nonce, ad, adlen, plaintext, ptlen, ciphertext, tag);
+}
+
+void decryption(unsigned char* key, unsigned char* nonce, unsigned char* ad, int adlen, unsigned char* ciphertext, int ctlen, unsigned char* plaintextDecrypted, unsigned char* tagEncryption, unsigned char* tagDecryption){
+    crypto_aead(key, nonce, ad, adlen, ciphertext, ctlen, plaintextDecrypted, tagDecryption);
+    bool tag_equality = true;
+	for(int i = 0; i < 16; i++){
+		if(tagEncryption[i] != tagDecryption[i]){
+			tag_equality = false;
+			break;
+		}
+	}
+
+	if(tag_equality)
+		for(int i = 0; i < ctlen; i++)
+			cout<<plaintextDecrypted[i]<<'\t';
+	else
+		cout<<"Different tags"<<endl;
+}
+
 int main(){
 
     unsigned char key[KEYBYTES];
@@ -37,19 +58,19 @@ int main(){
 	unsigned char tagEncryption[TAGBYTES];
 	unsigned char tagDecryption[TAGBYTES];
 
-    encrypt(key, nonce, ad, adlen, plain, msglen, cipher, tagEncryption);
+    encrytpion(key, nonce, ad, adlen, plain, msglen, cipher, tagEncryption);
 
-    for(int i = 0; i < msglen; i++)
-        cout<<bitset<8>(cipher[i])<<endl;
+    // for(int i = 0; i < msglen; i++)
+    //     cout<<bitset<8>(cipher[i])<<endl;
 
-    decrypt(key, nonce, ad, adlen, cipher, msglen, plaintextDecryted, tagEncryption, tagDecryption);
+    decryption(key, nonce, ad, adlen, cipher, msglen, plaintextDecryted, tagEncryption, tagDecryption); 
 
-    cout<<endl;
-    for(int i = 0; i < msglen; i++)
-        cout<<bitset<8>(plaintextDecryted[i])<<endl;
+    // cout<<endl;
+    // for(int i = 0; i < msglen; i++)
+    //     cout<<bitset<8>(plaintextDecryted[i])<<endl;
 
-    for(int i = 0; i < msglen; i ++)
-        cout<<plaintextDecryted[i]<<endl;
+    // for(int i = 0; i < msglen; i ++)
+    //     cout<<plaintextDecryted[i]<<endl;
 
     // cout<<bitset<8>('e')<<endl;
     // unsigned char trial = reverse('e');

@@ -1,8 +1,7 @@
 #include<iostream>
 
 #include "constants.h"
-// #include "spongent.cpp"
-#include "encryption.cpp"
+#include "aead.cpp"
 
 #include <bitset>
 
@@ -18,14 +17,17 @@ void randomBytes(unsigned char* bytes, int n) {
 	}
 }
 
-void encrytpion(unsigned char* key, unsigned char* nonce, unsigned char* ad, int adlen, unsigned char* plaintext, int ptlen, unsigned char* ciphertext, unsigned char* tag){
-    crypto_aead(key, nonce, ad, adlen, plaintext, ptlen, ciphertext, tag);
+void encryption(unsigned char* key, unsigned char* nonce, unsigned char* ad, int adlen, unsigned char* plaintext, int ptlen, unsigned char* ciphertext, unsigned char* tag){
+
+    crypto_aead(key, nonce, ad, adlen, plaintext, ptlen, ciphertext, tag, 1);
 }
 
 void decryption(unsigned char* key, unsigned char* nonce, unsigned char* ad, int adlen, unsigned char* ciphertext, int ctlen, unsigned char* plaintextDecrypted, unsigned char* tagEncryption, unsigned char* tagDecryption){
-    crypto_aead(key, nonce, ad, adlen, ciphertext, ctlen, plaintextDecrypted, tagDecryption);
+    
+    crypto_aead(key, nonce, ad, adlen, ciphertext, ctlen, plaintextDecrypted, tagDecryption, 0);
+
     bool tag_equality = true;
-	for(int i = 0; i < 16; i++){
+	for(int i = 0; i < 8; i++){
 		if(tagEncryption[i] != tagDecryption[i]){
 			tag_equality = false;
 			break;
@@ -55,10 +57,10 @@ int main(){
 
     unsigned char cipher[msglen];
 	unsigned char plaintextDecryted[msglen];
-	unsigned char tagEncryption[TAGBYTES];
-	unsigned char tagDecryption[TAGBYTES];
+	unsigned char tagEncryption[TAGBYTES] = {0};
+	unsigned char tagDecryption[TAGBYTES] = {0};
 
-    encrytpion(key, nonce, ad, adlen, plain, msglen, cipher, tagEncryption);
+    encryption(key, nonce, ad, adlen, plain, msglen, cipher, tagEncryption);
 
     // for(int i = 0; i < msglen; i++)
     //     cout<<bitset<8>(cipher[i])<<endl;

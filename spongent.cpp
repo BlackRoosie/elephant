@@ -65,8 +65,11 @@ void permutation(unsigned char* state){
 	unsigned char rev_lfsr = reverse(lfsr);
 
 	for(int i = 0; i < 80; i++){
-		state[0] ^= rev_lfsr;
+		//lCounter
+		lCounter(lfsr);
 		state[NBYTES-1] ^= lfsr;
+		rev_lfsr = reverse(lfsr);
+		state[0] ^= rev_lfsr;
 
 		//sBoxLayer
 		for(int i = 0; i < NBYTES; i++){

@@ -144,11 +144,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="aead.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="spongent.cpp" />
+    <ClCompile Include="demo.cpp" />
+    <ClCompile Include="api.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="constants.h" />
+    <ClInclude Include="constants.hpp" />
+    <ClInclude Include="aead.hpp" />
+    <ClInclude Include="api.hpp" />
+    <ClInclude Include="spongent.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

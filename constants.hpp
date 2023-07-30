@@ -1,7 +1,5 @@
-#ifndef CONSTANT_H
-#define CONSTANT_H
-
-#include <stdint.h>
+#ifndef CONSTANT_HPP
+#define CONSTANT_HPP
 
 const int KEYBYTES = 16;
 const int NONCEBYTES = 12;  //m

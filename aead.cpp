@@ -1,9 +1,8 @@
 #include <iostream>
 #include <cstring>
-#include "constants.h"
-#include "spongent.cpp"
-
-#include <bitset>
+#include "aead.hpp"
+#include "constants.hpp"
+#include "spongent.hpp"
 
 unsigned char rotationLeft3(unsigned char word){
     return (word << 3 | word >> 5);

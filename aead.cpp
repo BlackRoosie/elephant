@@ -29,7 +29,7 @@ void xor_blocks(unsigned char* state, unsigned char* block, int size){
 void crypto_aead(unsigned char* key, unsigned char* nonce, unsigned char* ad, int adlen, unsigned char* message, int msglen, unsigned char* msgCalculated, unsigned char* tag, bool encrypt){
   
     unsigned char padded_key[NBYTES] = {0};   //to store padded key
-    unsigned char padded_nonce[NONCEBYTES] = {0}; //to store padded nonce
+    unsigned char padded_nonce[NBYTES] = {0}; //to store padded nonce
     memcpy(padded_key, key, KEYBYTES);
     memcpy(padded_nonce, nonce, NONCEBYTES);
     
@@ -100,6 +100,7 @@ void crypto_aead(unsigned char* key, unsigned char* nonce, unsigned char* ad, in
                 else{
                     memcpy(buffer + NONCEBYTES, ad, adlen);
                     memset(buffer + NONCEBYTES + adlen, 0x00, NBYTES - NONCEBYTES - adlen);
+                    buffer[NONCEBYTES + adlen] = 0x80;
                 }
 
             }
@@ -110,7 +111,7 @@ void crypto_aead(unsigned char* key, unsigned char* nonce, unsigned char* ad, in
                 else {
                     memcpy(buffer, ad + index - NONCEBYTES, adlen);
                     memset(buffer + adlen, 0x00, NBYTES - adlen);
-                    buffer[adlen] = 0x10;
+                    buffer[adlen] = 0x80;
                 }
             }
 
@@ -149,7 +150,7 @@ void crypto_aead(unsigned char* key, unsigned char* nonce, unsigned char* ad, in
         
         index += NBYTES;
         msglen -= NBYTES;
-        adlen -= NBYTES;
+        adlen = adlen - NBYTES + NONCEBYTES;
 
         temp = previous_mask;
         previous_mask = current_mask;

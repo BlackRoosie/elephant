@@ -2,8 +2,6 @@
 #include "constants.hpp"
 #include "api.hpp"
 
-#include <bitset>
-
 using namespace std;
 
 void randomBytes(unsigned char* bytes, int n) {
@@ -27,7 +25,7 @@ int main() {
 	unsigned char ad[8] = { 'E', 'L', 'E', 'P', 'H', 'A', 'N', 'T' };
 	int adlen = sizeof(ad);
 
-	unsigned char plain[8] = { 'e', 'l', 'e', 'p', 'h', 'a', 'n', 't' };
+	unsigned char plain[24] = { 'e', 'l', 'e', 'p', 'h', 'a', 'n', 't' , 'e', 'l', 'e', 'p', 'h', 'a', 'n', 't' , 'e', 'l', 'e', 'p',  'h', 'a', 'n', 't' };
 	const int msglen = sizeof(plain);
 
 	unsigned char cipher[msglen];
@@ -36,9 +34,11 @@ int main() {
 	unsigned char tagDecryption[TAGBYTES] = { 0 };
 
 	encryption(key, nonce, ad, adlen, plain, msglen, cipher, tagEncryption);
-
 	decryption(key, nonce, ad, adlen, cipher, msglen, plaintextDecryted, tagEncryption, tagDecryption);
 
+
+
+    
 
 	return 0;
 }
